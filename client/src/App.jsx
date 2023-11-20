@@ -1,10 +1,20 @@
-import Posts from "./components/Posts/Post";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import { getPosts } from "./actions/posts";
+import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
 import memories from "./images/memories.png";
 
 import { styles } from "./styles";
 
 function App() {
+const dispatch = useDispatch();
+
+useEffect(() => {
+  dispatch(getPosts());
+}, [dispatch]);
+
   return (
     <div className="relative mx-auto w-[85%]">
       <nav className="my-4 flex items-center justify-center py-6 rounded-lg shadow-xl h-20">
