@@ -12,6 +12,12 @@ const styles = {
       "text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]",
     sectionSubText:
       "sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider",
+
+    formInput:
+      "w-full py-2 px-4 rounded-lg border-2 border-slate-500/75",
+    
+    button:
+      "rounded",
   };
   
   export { styles };
