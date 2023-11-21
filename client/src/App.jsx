@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { getPosts } from "./actions/posts";
@@ -9,11 +9,12 @@ import memories from "./images/memories.png";
 import { styles } from "./styles";
 
 function App() {
+  const [currentId, setCurrentId] = useState(null);
 const dispatch = useDispatch();
 
 useEffect(() => {
   dispatch(getPosts());
-}, [dispatch]);
+}, [currentId, dispatch]);
 
   return (
     <div className="relative mx-auto w-[85%]">
@@ -24,10 +25,10 @@ useEffect(() => {
 
         <section className="mt-8 flex flex-row justify-between gap-4">
           <div className="basis-4/5">
-            <Posts />
+            <Posts setCurrentId={setCurrentId} />
           </div>
           <div className="basis-1/5">
-            <Form />
+            <Form currentId={currentId} setCurrentId={setCurrentId} />
           </div>
         </section>
     </div>
