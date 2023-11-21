@@ -8,11 +8,13 @@ const Posts = () => {
   console.log(posts);
 
   return (
-    <>
-      <h1>POSTS</h1>
-      <Post />
-      <Post />
-    </>
+    !posts.length ? <h2>No posts yet.</h2> : (
+      <div className="mb-6 grid grid-cols-2 gap-6">
+        {posts.map((post) => (
+          <Post key={post._id} post={post} />
+        ))}
+      </div>
+    )
   )
 }
 

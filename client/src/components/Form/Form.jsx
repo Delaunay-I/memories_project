@@ -1,7 +1,9 @@
 import { useState } from "react";
 import FileBase from "react-file-base64";
+import { useDispatch } from "react-redux";
 
 import { styles } from "../../styles";
+import { createPost } from "../../actions/posts";
 
 const Form = () => {
   const [postData, setPostData] = useState({
@@ -11,17 +13,23 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
-  const handleSubmit = () => {};
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(createPost(postData));
+  };
 
   const clear = () => {};
 
   return (
-    <div className="shadow-md bg-slate-100">
+    <div className="shadow-md bg-primary rounded-lg">
       <form
         onSubmit={handleSubmit}
         autoComplete="off"
         noValidate
-        className="mt-4 flex flex-col items-center mx-6 gap-4"
+        className="flex flex-col items-center mx-6 gap-4"
       >
         <h3 className="text-xl font-semibold mt-4">Creating a Memory</h3>
         <input
@@ -73,7 +81,10 @@ const Form = () => {
           <button type="submit" className={`${styles.button} my-3 bg-blue-600`}>
             Submit
           </button>
-          <button onClick={clear} className={`${styles.button} mb-6 bg-rose-600`}>
+          <button
+            onClick={clear}
+            className={`${styles.button} mb-6 bg-rose-600`}
+          >
             Clear
           </button>
         </div>
