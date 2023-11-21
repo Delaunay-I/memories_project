@@ -9,7 +9,7 @@ const Post = ({ post }) => {
         <h5 className="text-3xl font-semibold tracking-tight">
           {post.creator}
         </h5>
-        <h6 className="text-xs">{moment(post.created).fromNow()}</h6>
+        <h6 className="text-xs">{moment(post.createdAt).fromNow()}</h6>
       </div>
 
       <img
