@@ -39,19 +39,19 @@ const Post = ({ post, setCurrentId }) => {
       />
 
       <div className="m-2 flex flex-col justify-between gap-3">
-        <p className="text-gray-600">{post.tags.map((tag) => `#${tag} `)}</p>
+        <p className="text-gray-600 text-xs">{post.tags.map((tag) => `#${tag} `)}</p>
         <h6 className="text-4xl text-bold">{post.title}</h6>
         <p className="text-gray-600">{post.message}</p>
       </div>
 
-      <div className="flex justify-between bg-slate-300 px-3">
+      <div className="flex justify-between p-3">
         <button
           className="flex justify-between items-center space-x-1"
           onClick={() => dispatch(likePost(post._id))}
         >
           <img src={likeIcon} alt="thumb up" width={15} height={15} />
           <div>
-            Like
+          &nbsp; Like &nbsp;
             {post.likeCount}
           </div>
         </button>
