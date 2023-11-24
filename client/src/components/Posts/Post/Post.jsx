@@ -9,9 +9,9 @@ const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="relative max-w-md h-full grid gap-4 content-between bg-primary border border-gray-200 rounded-lg shadow hover:bg-gray-300">
+    <div className="relative flex max-w-[18rem] flex-col rounded-xl bg-primary shadow-md">
       <button
-        className="absolute z-10 top-0 right-0 text-white hover:bg-gray-600/[.4] focus:outline-none rounded-lg text-sm p-2"
+        className="absolute z-10 top-0 right-0 text-white transition duration-300 ease-in-out hover:bg-zinc-700/[.4] focus:outline-none rounded-full text-sm p-2"
         type="button"
         onClick={() => setCurrentId(post._id)}
       >
@@ -26,6 +26,7 @@ const Post = ({ post, setCurrentId }) => {
           <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
         </svg>
       </button>
+
       <div className="absolute z-10 pl-4 mt-6 text-white">
         <h5 className="text-3xl font-semibold tracking-tight">
           {post.creator}
@@ -35,23 +36,25 @@ const Post = ({ post, setCurrentId }) => {
 
       <img
         src={post.selectedFile}
-        className="w-full h-44 brightness-50 rounded-t-lg overflow-hidden text-center bg-secondary object-cover"
+        className="w-full h-44 brightness-50 overflow-hidden rounded-t-lg bg-transparent bg-clip-border bg-secondary object-cover"
       />
 
-      <div className="m-2 flex flex-col justify-between gap-3">
-        <p className="text-gray-600 text-xs">{post.tags.map((tag) => `#${tag} `)}</p>
-        <h6 className="text-4xl text-bold">{post.title}</h6>
-        <p className="text-gray-600">{post.message}</p>
+      <div className="m-2 flex flex-col justify-between gap-3 antialiased">
+        <p className="text-gray-600 text-xs">
+          {post.tags.map((tag) => `#${tag} `)}
+        </p>
+        <h6 className="text-stone-900 text-2xl font-semibold leading-snug">{post.title}</h6>
+        <p className="leading-relaxed text-gray-700">{post.message}</p>
       </div>
 
-      <div className="flex justify-between p-3">
+      <div className="flex justify-between p-6">
         <button
           className="flex justify-between items-center space-x-1"
           onClick={() => dispatch(likePost(post._id))}
         >
           <img src={likeIcon} alt="thumb up" width={15} height={15} />
           <div>
-          &nbsp; Like &nbsp;
+            &nbsp; Like &nbsp;
             {post.likeCount}
           </div>
         </button>
