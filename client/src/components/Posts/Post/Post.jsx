@@ -3,7 +3,7 @@ import likeIcon from "../../../images/like.png";
 import deleteIcon from "../../../images/delete.png";
 import { useDispatch } from "react-redux";
 
-import { deletePost } from "../../../actions/posts";
+import { deletePost, likePost } from "../../../actions/posts";
 
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const Post = ({ post, setCurrentId }) => {
       <div className="flex justify-between bg-slate-300 px-3">
         <button
           className="flex justify-between items-center space-x-1"
-          onClick={() => {}}
+          onClick={() => dispatch(likePost(post._id))}
         >
           <img src={likeIcon} alt="thumb up" width={15} height={15} />
           <div>
