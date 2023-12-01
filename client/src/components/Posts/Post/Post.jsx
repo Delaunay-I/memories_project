@@ -4,6 +4,7 @@ import deleteIcon from "../../../images/delete.png";
 import { useDispatch } from "react-redux";
 
 import { deletePost, likePost } from "../../../actions/posts";
+import { postDeleted  } from "../../../features/post/postSlice";
 
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const Post = ({ post, setCurrentId }) => {
 
         <button
           className="flex justify-between items-center space-x-1"
-          onClick={() => dispatch(deletePost(post._id))}
+          onClick={() => dispatch(postDeleted(post))}
         >
           <img src={deleteIcon} alt="delete" width={15} />
           Delete

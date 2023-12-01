@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import Post from "./Post/Post";
 
 const Posts = ({ currentId, setCurrentId }) => {
-  const posts = useSelector((store) => store.posts);
+  const { posts } = useSelector((store) => store.posts);
 
-  console.log(posts);
+  console.log(`within posts component`, posts);
 
   return !posts.length ? (
     <h2>No posts yet.</h2>
