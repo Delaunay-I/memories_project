@@ -2,32 +2,36 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 // import { api } from "../api/apiSlice";
 
-
 const url = "http://localhost:5000/posts";
 
-export const getPosts = createAsyncThunk("posts/getPosts", async (name, thunkAPI) => {
-  try {
-    const resp = await axios(url);
-    return resp.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue("something went wrong");
+export const getPosts = createAsyncThunk(
+  "posts/getPosts",
+  async (name, thunkAPI) => {
+    try {
+      const resp = await axios(url);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
+    }
   }
-});
+);
 
-
-// export const getPosts = () => async (dispatch) => {
-//     try {
-//       const { data } = await axios.get(url);
-//       console.log(data);
-//       dispatch({ type: FETCH_ALL, payload: data });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+//posts/postDeleted
+export const deletePostAsync = createAsyncThunk(
+  "posts/deletePost",
+  async (id, thunkAPI) => {
+    try {
+      const response = await axios.delete(`${url}/${id}`);
+      return id;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
 
 const initialState = {
   posts: [],
-  isLoading: true
+  isLoading: true,
 };
 
 const postsSlice = createSlice({
@@ -35,9 +39,8 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     postDeleted: (state, action) => {
-      console.log(`initial state:`, state)
       const postId = action.payload;
-      state.posts = state.posts.filter((post) => post.id !== postId);
+      state.posts = state.posts.filter((post) => post._id !== action.payload);
     },
     postUpdated: (state, action) => {
       state.posts.map((post) =>
@@ -62,6 +65,9 @@ const postsSlice = createSlice({
     [getPosts.rejected]: (state, action) => {
       state.isLoading = false;
     },
+    [deletePostAsync.fulfilled]: (state, action) => {
+      state.posts = state.posts.filter((post) => post._id !== action.payload);
+    }
   },
   // extraReducers: (builder) => {
   //   builder.addMatcher(
