@@ -3,7 +3,8 @@ import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 
 import { styles } from "../../styles";
-import { createPost, updatePost } from "../../actions/posts";
+// import { createPost, updatePost } from "../../actions/posts";
+import { updatePostAsync, createPostAsync } from "../../features/post/postSlice";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
@@ -13,8 +14,10 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: "",
     selectedFile: "",
   });
-  const post = useSelector((state) =>
-    currentId ? state.posts.find((p) => p._id === currentId) : null
+  const post = useSelector(({posts}) =>
+    {
+      console.log(`HERE: `, posts);
+      return currentId ? posts.postItems.find((p) => p._id === currentId) : null}
   );
   const dispatch = useDispatch();
 
@@ -26,9 +29,9 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
+      dispatch(updatePostAsync(currentId, postData));
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPostAsync(postData));
     }
 
     clear();

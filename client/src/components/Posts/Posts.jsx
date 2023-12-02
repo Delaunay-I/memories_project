@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Post from "./Post/Post";
 
 const Posts = ({ currentId, setCurrentId }) => {
-  const { posts } = useSelector((store) => store.posts);
+  const { postItems: posts } = useSelector((store) => store.posts);
 
   console.log(`within posts component`, posts);
 
