@@ -3,8 +3,7 @@ import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 
 import { styles } from "../../styles";
-// import { createPost, updatePost } from "../../actions/posts";
-import { updatePostAsync, createPostAsync } from "../../features/post/postSlice";
+import { updatePost, createPost } from "../../features/post/postSlice";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
@@ -14,11 +13,10 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: "",
     selectedFile: "",
   });
-  const post = useSelector(({posts}) =>
-    {
-      console.log(`HERE: `, posts);
-      return currentId ? posts.postItems.find((p) => p._id === currentId) : null}
-  );
+  const post = useSelector((store) => {
+    const { posts } = store.posts;
+    return currentId ? posts.find((p) => p._id === currentId) : null;
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,9 +27,11 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId) {
-      dispatch(updatePostAsync(currentId, postData));
+      console.log('currentID:', currentId)
+      console.log('post-data:', postData)
+      dispatch(updatePost({id: currentId, updatedPost: postData}));
     } else {
-      dispatch(createPostAsync(postData));
+      dispatch(createPost(postData));
     }
 
     clear();
@@ -93,7 +93,9 @@ const Form = ({ currentId, setCurrentId }) => {
           placeholder="Tags"
           className={`${styles.formInput}`}
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
 
         <div className="flex flex-col">
