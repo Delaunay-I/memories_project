@@ -27,8 +27,6 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId) {
-      console.log('currentID:', currentId)
-      console.log('post-data:', postData)
       dispatch(updatePost({id: currentId, updatedPost: postData}));
     } else {
       dispatch(createPost(postData));

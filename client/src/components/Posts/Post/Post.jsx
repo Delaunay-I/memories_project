@@ -3,8 +3,7 @@ import likeIcon from "../../../images/like.png";
 import deleteIcon from "../../../images/delete.png";
 import { useDispatch } from "react-redux";
 
-import { likePost } from "../../../actions/posts";
-import { deletePost  } from "../../../features/post/postSlice";
+import { deletePost, likePost } from "../../../features/post/postSlice";
 
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();

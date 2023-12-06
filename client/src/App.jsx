@@ -1,36 +1,19 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-// import { getPosts } from "./actions/posts";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
 import memories from "./images/memories.png";
 
-// import { useGetPostsQuery } from "./features/api/apiSlice";
-import { getPosts, postsFetched } from "./features/post/postSlice";
+import { getPosts } from "./features/post/postSlice";
 
 function App() {
   const [currentId, setCurrentId] = useState(null);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getPosts());
-  // }, [currentId, dispatch]);
-
- 
-
   useEffect(() => {
     dispatch(getPosts());
   }, []);
-
-
-  // const { data: posts, isFetching, isSuccess } = useGetPostsQuery();
-  // if (isSuccess) {
-  //   console.log(`RTK query:`, posts);
-  // } else {
-  //   console.log(`not fetched`);
-
-  // }
 
   return (
     <div className="relative flex flex-col items-center">

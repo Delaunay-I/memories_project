@@ -32,49 +32,40 @@ export const updatePost = createAsyncThunk(
   }
 );
 
+export const likePost = createAsyncThunk("post/like", async (id) => {
+  const response = await axios.patch(`${url}/${id}/likePost`);
+  return response.data;
+});
+
+const asyncActions = [getPosts, createPost, deletePost, updatePost, likePost];
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
   extraReducers(builder) {
+    asyncActions.forEach((action) => {
+      builder
+        .addCase(action.pending, (state) => {
+          state.status = "loading";
+        })
+        .addCase(action.rejected, (state, action) => {
+          state.status = "failed";
+          state.error = action.error.message;
+        });
+    });
+
     builder
-      .addCase(getPosts.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(getPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.posts = action.payload;
-      })
-      .addCase(getPosts.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      })
-
-      .addCase(createPost.pending, (state) => {
-        state.status = "loading";
       })
       .addCase(createPost.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.posts.push(action.payload);
       })
-      .addCase(createPost.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      })
-
-      .addCase(deletePost.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.posts = state.posts.filter((post) => post._id !== action.payload);
-      })
-      .addCase(deletePost.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      })
-
-      .addCase(updatePost.pending, (state) => {
-        state.status = "loading";
       })
       .addCase(updatePost.fulfilled, (state, action) => {
         state.status = "succeeded";
@@ -82,13 +73,13 @@ const postsSlice = createSlice({
           post._id === action.payload._id ? action.payload : post
         );
       })
-      .addCase(updatePost.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
+      .addCase(likePost.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.posts = state.posts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        );
       });
   },
 });
 
-export const { postDeleted, postUpdated, postsFetched, postCreated } =
-  postsSlice.actions;
 export default postsSlice.reducer;
