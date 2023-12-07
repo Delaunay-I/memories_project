@@ -1,12 +1,11 @@
 import { useState } from "react";
+import Input from "./Input";
 
 import { styles } from "../../styles";
 
 const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
-  const handleShowPassword = () => setShowPassword(!showPassword);
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
@@ -20,38 +19,43 @@ const Auth = () => {
         </h1>
 
         <form className="space-y-4 md:space-y-6">
-          <div>
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Your email
-            </label>
-            <input
-              type="email"
-              name="Email"
-              id="email"
-              className={`${styles.form_input}`}
-              placeholder="Enter your email"
-              required
+          {isSignup && (
+            <Input
+              name="Full Name"
+              type="text"
+              id="fullname"
+              label="Full Name"
+              placeholder="e.g. John Doe"
             />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Password
-            </label>
-            <input
+          )}
+
+          <Input
+            name="Email"
+            type="email"
+            id="email"
+            label="Your email"
+            placeholder="Enter your email"
+          />
+
+          <Input
+            name="Password"
+            type="password"
+            id="password"
+            label="Password"
+            placeholder="Enter your password"
+            isPassword={true}
+          />
+
+          {isSignup && (
+            <Input
+              name="confirmPassword"
               type="password"
-              name="Password"
-              id="password"
-              className={`${styles.form_input}`}
-              placeholder="Enter your password"
-              required
+              id="confirmPassword"
+              label="Repeat Password"
+              placeholder="Repeat Password"
+              isPassword={true}
             />
-          </div>
+          )}
           <div className="flex items-center justify-between">
             <div className="flex items-center h-5">
               <input
@@ -74,12 +78,18 @@ const Auth = () => {
             type="submit"
             className={`${styles.colored_shadow_buttons} ${styles.blue_gradient} w-full`}
           >
-            Sign in
+            {isSignup ? "Sign Up" : "Create an account"}
           </button>
           <p className="text-sm font-light text-gray-500">
-          Don’t have an account yet?
-            <a href="#" className="ml-2 font-medium text-primary-600 hover:underline" onClick={switchMode}>
-            Sign up
+            {isSignup
+              ? "Already have an account?"
+              : "Don’t have an account yet?"}
+            <a
+              href="#"
+              className="ml-2 font-medium text-primary-600 hover:underline"
+              onClick={switchMode}
+            >
+              {isSignup ? "Login here" : "Sign up here"}
             </a>
           </p>
         </form>
