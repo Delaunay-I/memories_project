@@ -1,6 +1,6 @@
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
-import Auth from "./components/Auth";
+import Auth from "./components/Auth/Auth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
