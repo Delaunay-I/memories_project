@@ -1,10 +1,14 @@
 import { useState } from "react";
 import Input from "./Input";
 
+import { GoogleLogin } from "@react-oauth/google";
 import { styles } from "../../styles";
 
 const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
@@ -28,7 +32,6 @@ const Auth = () => {
               placeholder="e.g. John Doe"
             />
           )}
-
           <Input
             name="Email"
             type="email"
@@ -36,50 +39,65 @@ const Auth = () => {
             label="Your email"
             placeholder="Enter your email"
           />
-
           <Input
-            name="Password"
-            type="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
             id="password"
             label="Password"
             placeholder="Enter your password"
             isPassword={true}
+            handleShowPassword={handleShowPassword}
           />
-
           {isSignup && (
             <Input
-              name="confirmPassword"
-              type="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
               id="confirmPassword"
               label="Repeat Password"
               placeholder="Repeat Password"
               isPassword={true}
             />
           )}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center h-5">
-              <input
-                type="checkbox"
-                id="remember"
-                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 cursor-pointer"
-              />
-              <label htmlFor="remember" className="ml-3 text-sm text-gray-500">
-                Remember me
-              </label>
+          {!isSignup && (
+            <div className="flex items-center justify-between">
+              <div className="flex items-center h-5">
+                <input
+                  type="checkbox"
+                  id="remember"
+                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 cursor-pointer"
+                />
+                <label
+                  htmlFor="remember"
+                  className="ml-3 text-sm text-gray-500"
+                >
+                  Remember me
+                </label>
+              </div>
+              <a
+                href="#"
+                className="text-sm font-medium text-primary-600 hover:underline"
+              >
+                Forgot password?
+              </a>
             </div>
-            <a
-              href="#"
-              className="text-sm font-medium text-primary-600 hover:underline"
-            >
-              Forgot password?
-            </a>
-          </div>
+          )}
           <button
             type="submit"
             className={`${styles.colored_shadow_buttons} ${styles.blue_gradient} w-full`}
           >
             {isSignup ? "Sign Up" : "Create an account"}
           </button>
+          {!isSignup && (
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+          )}
+
           <p className="text-sm font-light text-gray-500">
             {isSignup
               ? "Already have an account?"

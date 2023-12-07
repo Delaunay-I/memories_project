@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { styles } from "../../styles";
 
 import { EyeIconClosed, EyeIconShow } from "./icon";
@@ -10,10 +9,10 @@ const Input = ({
   label,
   placeholder,
   handleChange,
-  isPassword = false,
+//   isPassword = false,
+  handleShowPassword,
 }) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const handleShowPassword = () => setShowPassword(!showPassword);
+ 
 
   return (
     <div className="relative">
@@ -26,7 +25,7 @@ const Input = ({
 
       <input
         name={name}
-        type={isPassword && showPassword ? "text" : type}
+        type={type}
         id={id}
         onChange={handleChange}
         className={`${styles.form_input}`}
@@ -34,13 +33,13 @@ const Input = ({
         required
       />
 
-      {isPassword && (
+      {name==="password" && (
         <button
           type="button"
           onClick={handleShowPassword}
           className="absolute text-sm inline-block bottom-3 right-4"
         >
-          {showPassword ? <EyeIconClosed /> : <EyeIconShow />}
+          {type === 'password' ? <EyeIconClosed /> : <EyeIconShow />}
         </button>
       )}
     </div>
