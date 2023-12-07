@@ -61,7 +61,7 @@ const Form = ({ currentId, setCurrentId }) => {
           type="text"
           name="creator"
           placeholder="Creator"
-          className={`${styles.formInput}`}
+          className={`${styles.form_input}`}
           value={postData.creator}
           onChange={(e) =>
             setPostData({ ...postData, creator: e.target.value })
@@ -71,7 +71,7 @@ const Form = ({ currentId, setCurrentId }) => {
           type="text"
           name="title"
           placeholder="Title"
-          className={`${styles.formInput}`}
+          className={`${styles.form_input}`}
           value={postData.title}
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
@@ -79,7 +79,7 @@ const Form = ({ currentId, setCurrentId }) => {
           type="text"
           name="message"
           placeholder="Message"
-          className={`${styles.formInput}`}
+          className={`${styles.form_input}`}
           value={postData.message}
           onChange={(e) =>
             setPostData({ ...postData, message: e.target.value })
@@ -89,7 +89,7 @@ const Form = ({ currentId, setCurrentId }) => {
           type="text"
           name="tags"
           placeholder="Tags"
-          className={`${styles.formInput}`}
+          className={`${styles.form_input}`}
           value={postData.tags}
           onChange={(e) =>
             setPostData({ ...postData, tags: e.target.value.split(",") })
