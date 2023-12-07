@@ -15,9 +15,15 @@ const styles = {
 
     formInput:
       "w-full py-2 px-4 rounded-lg border-2 border-slate-500/75",
-    
-    button:
-      "rounded",
+
+    blue_gradient:
+    "from-blue-500 via-blue-600 to-blue-700",
+
+    red_gradient:
+    "from-red-500 via-red-600 to-red-700",
+
+    colored_shadow_buttons:
+    "text-white bg-gradient-to-r hover:bg-gradient-to-br shadow-lg shadow-blue-500/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
   };
   
   export { styles };

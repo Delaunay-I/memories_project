@@ -105,12 +105,12 @@ const Form = ({ currentId, setCurrentId }) => {
             }
           />
 
-          <button type="submit" className={`${styles.button} my-3 bg-blue-600`}>
+          <button type="submit" className={`${styles.colored_shadow_buttons}  ${styles.blue_gradient} my-3`}>
             Submit
           </button>
           <button
             onClick={clear}
-            className={`${styles.button} mb-6 bg-rose-600`}
+            className={`${styles.colored_shadow_buttons} ${styles.red_gradient } mb-6`}
           >
             Clear
           </button>
