@@ -1,10 +1,17 @@
 import { useState } from "react";
-import Input from "./Input";
-
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
 import { GoogleLogin } from "@react-oauth/google";
+import { useNavigate } from 'react-router-dom';
+
+import { login } from "../../features/auth/authSlice";
+import Input from "./Input";
 import { styles } from "../../styles";
 
 const Auth = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [isSignup, setIsSignup] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -90,7 +97,11 @@ const Auth = () => {
           {!isSignup && (
             <GoogleLogin
               onSuccess={(credentialResponse) => {
-                console.log(credentialResponse);
+                const token = credentialResponse.credential;
+                const result = jwtDecode(token);
+
+                dispatch(login({ data: result, token }));
+                navigate('/');
               }}
               onError={() => {
                 console.log("Login Failed");

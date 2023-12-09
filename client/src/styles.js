@@ -20,7 +20,7 @@ const styles = {
     "from-red-500 via-red-600 to-red-700 shadow-red-500/50",
 
     colored_shadow_buttons:
-    "text-white bg-gradient-to-r hover:bg-gradient-to-br shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center",
+    "text-white bg-gradient-to-r hover:bg-gradient-to-br shadow-lg font-medium rounded-lg text-sm px-4 py-2 text-center",
 
     form_input:
     "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
