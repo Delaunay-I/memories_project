@@ -43,7 +43,9 @@ const Post = ({ post, setCurrentId }) => {
         <p className="text-gray-600 text-xs">
           {post.tags.map((tag) => `#${tag} `)}
         </p>
-        <h6 className="text-stone-900 text-2xl font-semibold leading-snug">{post.title}</h6>
+        <h6 className="text-stone-900 text-2xl font-semibold leading-snug">
+          {post.title}
+        </h6>
         <p className="leading-relaxed text-gray-700">{post.message}</p>
       </div>
 

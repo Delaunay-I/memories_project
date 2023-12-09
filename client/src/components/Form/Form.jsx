@@ -27,7 +27,7 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId) {
-      dispatch(updatePost({id: currentId, updatedPost: postData}));
+      dispatch(updatePost({ id: currentId, updatedPost: postData }));
     } else {
       dispatch(createPost(postData));
     }
@@ -105,12 +105,15 @@ const Form = ({ currentId, setCurrentId }) => {
             }
           />
 
-          <button type="submit" className={`${styles.colored_shadow_buttons}  ${styles.blue_gradient} my-3`}>
+          <button
+            type="submit"
+            className={`${styles.colored_shadow_buttons}  ${styles.blue_gradient} my-3`}
+          >
             Submit
           </button>
           <button
             onClick={clear}
-            className={`${styles.colored_shadow_buttons} ${styles.red_gradient } mb-6`}
+            className={`${styles.colored_shadow_buttons} ${styles.red_gradient} mb-6`}
           >
             Clear
           </button>

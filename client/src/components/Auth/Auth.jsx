@@ -2,7 +2,7 @@ import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { GoogleLogin } from "@react-oauth/google";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import { login } from "../../features/auth/authSlice";
 import Input from "./Input";
@@ -101,7 +101,7 @@ const Auth = () => {
                 const result = jwtDecode(token);
 
                 dispatch(login({ data: result, token }));
-                navigate('/');
+                navigate("/");
               }}
               onError={() => {
                 console.log("Login Failed");
