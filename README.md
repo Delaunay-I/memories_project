@@ -1,6 +1,6 @@
 # MERN Social: Updated Social Media App
 
-![Project Image]([https://github.com/your-username/your-repo/raw/main/path-to-your-image.jpg](https://github.com/Delaunay-I/memories_project/blob/main/Social%20app.png))
+![Project Image](Social%20app.png)
 
 ## Overview
 
@@ -36,4 +36,4 @@ Special thanks to JavaScript Mastery for the original tutorial, providing a soli
 
 ## License
 
-This project is licensed under the [MIT License](<link to license file if available>).
+This project is licensed under the [MIT License]([<link to license file if available>](https://github.com/Delaunay-I/memories_project/blob/main/LICENSE)https://github.com/Delaunay-I/memories_project/blob/main/LICENSE).
