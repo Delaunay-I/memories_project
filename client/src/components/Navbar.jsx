@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { jwtDecode } from "jwt-decode";
+import Avatar from 'react-avatar';
 
 import { logout } from "../features/auth/authSlice";
 import { styles } from "../styles";
@@ -14,14 +16,17 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/auth");
+    navigate("/");
     setUser(null);
   };
 
   useEffect(() => {
-    // const token = user?.token;
+    const token = user?.token;
 
-    //JWT...
+    if(token) {
+      const decodedToken = jwtDecode(token);
+      if(decodedToken.exp * 1000 < new Date().getTime()) handleLogout();
+    }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
@@ -37,12 +42,8 @@ const Navbar = () => {
       <div>
         {user ? (
           <div className="flex justify-between items-center gap-4">
-            <img
-              src={user.picture}
-              alt={user.name}
-              className="w-10 h-10 rounded-full"
-            />
-            <h1 className="">{user.name}</h1>
+            <Avatar name={user.name} size="40" round={true} />
+            <h1 className="text-xl antialiased">{user.name}</h1>
             <button
               className={`${styles.colored_shadow_buttons} ${styles.red_gradient}`}
               onClick={handleLogout}

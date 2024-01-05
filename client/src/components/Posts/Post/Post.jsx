@@ -8,8 +8,34 @@ import { deletePost, likePost } from "../../../features/post/postSlice";
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
 
+  const user = JSON.parse(localStorage.getItem("profile"));
+
+  const Likes = () => {
+    if (post.likes.length > 0) {
+      return post.likes.find(
+        (like) => like === (user?.result?.sub || user?.result?._id)
+      ) ? (
+        <>
+          &nbsp;
+          {post.likes.length > 2
+            ? `You and ${post.likes.length - 1} others`
+            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+        </>
+      ) : (
+        <>
+          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}
+        </>
+      );
+    }
+
+    return <>&nbsp;Like</>;
+  };
+
+
   return (
-    <div className="relative flex max-w-[18rem] flex-col rounded-xl bg-primary shadow-md">
+    <div className="relative flex w-[18rem] flex-col rounded-xl bg-primary shadow-md">
+      {(user?.sub === post?.creator ||
+          user?._id === post?.creator) && (
       <button
         className="absolute z-10 top-0 right-0 text-white transition duration-300 ease-in-out hover:bg-zinc-700/[.4] focus:outline-none rounded-full text-sm p-2"
         type="button"
@@ -26,11 +52,10 @@ const Post = ({ post, setCurrentId }) => {
           <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
         </svg>
       </button>
+          )}
 
       <div className="absolute z-10 pl-4 mt-6 text-white">
-        <h5 className="text-3xl font-semibold tracking-tight">
-          {post.creator}
-        </h5>
+        <h5 className="text-3xl font-semibold tracking-tight">{post.name}</h5>
         <h6 className="text-xs">{moment(post.createdAt).fromNow()}</h6>
       </div>
 
@@ -56,18 +81,20 @@ const Post = ({ post, setCurrentId }) => {
         >
           <img src={likeIcon} alt="thumb up" width={15} height={15} />
           <div>
-            &nbsp; Like &nbsp;
-            {post.likeCount}
+            <Likes />
           </div>
         </button>
-
-        <button
-          className="flex justify-between items-center space-x-1"
-          onClick={() => dispatch(deletePost(post._id))}
-        >
-          <img src={deleteIcon} alt="delete" width={15} />
-          Delete
-        </button>
+      {  console.log('post', post)}
+        {(user?.sub === post?.creator ||
+          user?._id === post?.creator) && (
+          <button
+            className="flex justify-between items-center space-x-1"
+            onClick={() => dispatch(deletePost(post._id))}
+          >
+            <img src={deleteIcon} alt="delete" width={15} />
+            Delete
+          </button>
+        )}
       </div>
     </div>
   );

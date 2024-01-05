@@ -1,11 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from "axios";
+import axios from "axios";
 
-// const url = "http://localhost:5000/posts";
+const API = axios.create({ baseURL: "http://localhost:5000/user" });
 
-// export const login = createAsyncThunk("auth/login", async ()=>{
-//     const response = await axios.
-// })
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem('profile')) {
+    req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+  }
+
+  return req;
+});
+
+export const signin = createAsyncThunk("auth/signin", async (formData) => {
+  const response = await API.post("/signin", formData);
+  return response.data;
+});
+
+export const signup = createAsyncThunk("auth/signup", async (formData) => {
+  const response = await API.post("/signup", formData);
+  return response.data;
+});
 
 const initialState = {
   token: "",
@@ -24,7 +38,7 @@ const authSlice = createSlice({
       localStorage.setItem(
         "profile",
         JSON.stringify({
-          ...action.payload?.data,
+          ...action.payload?.result,
           token: action.payload?.token,
         })
       );
@@ -35,12 +49,35 @@ const authSlice = createSlice({
       state.authData = null;
     },
   },
-  // extraReducers(builder) {
-  //     builder.addCase(login.fulfilled, (state, action) => {
-  //         localStorage.setItem('profile', JSON.stringify({...action?.data}));
-  //         state.authData = action?.data;
-  //     })
-  // }
+  extraReducers(builder) {
+    builder
+      .addCase(signin.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(signin.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.authData = action.payload?.data;
+        state.token = action.payload?.token;
+      })
+      .addCase(signin.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(signup.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(signup.fulfilled, (state) => {
+        state.status = "succeeded";
+      })
+      .addCase(signup.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
+    // builder.addCase(login.fulfilled, (state, action) => {
+    //     localStorage.setItem('profile', JSON.stringify({...action?.data}));
+    //     state.authData = action?.data;
+    // })
+  },
 });
 
 export const { login, logout } = authSlice.actions;

@@ -4,22 +4,46 @@ import { useDispatch } from "react-redux";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 
-import { login } from "../../features/auth/authSlice";
+import { login, signin, signup } from "../../features/auth/authSlice";
 import Input from "./Input";
 import { styles } from "../../styles";
+
+const initialState = {
+  fullName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isSignup, setIsSignup] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const action = isSignup ? signup(formData) : signin(formData);
+
+    dispatch(action).then((response) => {
+      if (response.meta.requestStatus === "fulfilled") {
+        dispatch(login(response.payload));
+        navigate("/");
+      }
+    });
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -29,22 +53,24 @@ const Auth = () => {
           {isSignup ? "Create your Account " : "Sign in to your account"}
         </h1>
 
-        <form className="space-y-4 md:space-y-6">
+        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
           {isSignup && (
             <Input
-              name="Full Name"
+              name="fullName"
               type="text"
-              id="fullname"
+              id="fullName"
               label="Full Name"
               placeholder="e.g. John Doe"
+              handleChange={handleChange}
             />
           )}
           <Input
-            name="Email"
+            name="email"
             type="email"
             id="email"
             label="Your email"
             placeholder="Enter your email"
+            handleChange={handleChange}
           />
           <Input
             name="password"
@@ -54,15 +80,17 @@ const Auth = () => {
             placeholder="Enter your password"
             isPassword={true}
             handleShowPassword={handleShowPassword}
+            handleChange={handleChange}
           />
           {isSignup && (
             <Input
-              name="password"
+              name="confirmPassword"
               type={showPassword ? "text" : "password"}
               id="confirmPassword"
               label="Repeat Password"
               placeholder="Repeat Password"
               isPassword={true}
+              handleChange={handleChange}
             />
           )}
           {!isSignup && (
@@ -92,15 +120,15 @@ const Auth = () => {
             type="submit"
             className={`${styles.colored_shadow_buttons} ${styles.blue_gradient} w-full`}
           >
-            {isSignup ? "Sign Up" : "Create an account"}
+            {isSignup ? "Create an account" : "Sign In"}
           </button>
           {!isSignup && (
             <GoogleLogin
               onSuccess={(credentialResponse) => {
                 const token = credentialResponse.credential;
                 const result = jwtDecode(token);
-
-                dispatch(login({ data: result, token }));
+                console.log(result, token)
+                dispatch(login({ result, token }));
                 navigate("/");
               }}
               onError={() => {

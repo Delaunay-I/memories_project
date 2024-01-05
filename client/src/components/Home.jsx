@@ -13,12 +13,15 @@ const Home = () => {
     dispatch(getPosts());
   }, []);
   return (
-    <section className="mt-8 px-8 flex sm:flex-row flex-col-reverse sm:items-start items-center  gap-4">
-      <Posts setCurrentId={setCurrentId} />
-      <div className="">
-        <Form currentId={currentId} setCurrentId={setCurrentId} />
-      </div>
-    </section>
+    // <section className="mt-8 px-8 flex sm:flex-row flex-col-reverse sm:items-start items-center  gap-4">
+    <div className="w-4/5">
+      <section className="mt-8 px-8 flex sm:flex-row flex-col-reverse justify-between">
+        <Posts setCurrentId={setCurrentId} />
+        <div className="">
+          <Form currentId={currentId} setCurrentId={setCurrentId} />
+        </div>
+      </section>
+    </div>
   );
 };
 

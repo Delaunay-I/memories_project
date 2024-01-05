@@ -1,7 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const url = "http://localhost:5000/posts";
+const API = axios.create({ baseURL: "http://localhost:5000/posts" });
+
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem('profile')) {
+    req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+  }
+
+  return req;
+});
 
 const initialState = {
   posts: [],
@@ -10,30 +18,31 @@ const initialState = {
 };
 
 export const getPosts = createAsyncThunk("post/get", async () => {
-  const response = await axios.get(url);
+  const response = await API.get('/');
   return response.data;
 });
 
-export const createPost = createAsyncThunk("post/create", async (newPost) => {
-  const response = await axios.post(url, newPost);
+export const createPost = createAsyncThunk("post/create", async ({newPost, name}) => {
+  const data = { ...newPost, name };
+  const response = await API.post('/', data);
   return response.data;
 });
 
 export const deletePost = createAsyncThunk("post/delete", async (id) => {
-  await axios.delete(`${url}/${id}`);
+  await API.delete(`/${id}`);
   return id;
 });
 
 export const updatePost = createAsyncThunk(
   "post/update",
-  async ({ id, updatedPost }) => {
-    const response = await axios.patch(`${url}/${id}`, updatedPost);
+  async ({ id, updatedPost, name }) => {
+    const response = await API.patch(`/${id}`, updatedPost);
     return response.data;
   }
 );
 
 export const likePost = createAsyncThunk("post/like", async (id) => {
-  const response = await axios.patch(`${url}/${id}/likePost`);
+  const response = await API.patch(`/${id}/likePost`);
   return response.data;
 });
 
