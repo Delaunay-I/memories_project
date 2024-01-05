@@ -36,4 +36,4 @@ Special thanks to JavaScript Mastery for the original tutorial, providing a soli
 
 ## License
 
-This project is licensed under the [MIT License]([<link to license file if available>](https://github.com/Delaunay-I/memories_project/blob/main/LICENSE)https://github.com/Delaunay-I/memories_project/blob/main/LICENSE).
+This project is licensed under the [MIT License](https://github.com/Delaunay-I/memories_project/blob/main/LICENSE).
